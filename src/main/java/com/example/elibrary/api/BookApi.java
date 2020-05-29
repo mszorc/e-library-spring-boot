@@ -26,8 +26,8 @@ public class BookApi {
     }
 
     @GetMapping
-    public Optional<Book> getById(@RequestParam Long index) {
-        return bookManager.find(index);
+    public Optional<Book> getById(@RequestParam Long id) {
+        return bookManager.find(id);
     }
 
     @PostMapping
@@ -41,7 +41,7 @@ public class BookApi {
     }
 
     @DeleteMapping
-    public void deleteBook(@RequestBody Long id) {
+    public void deleteBook(@RequestParam Long id) {
         bookManager.deleteById(id);
     }
 
