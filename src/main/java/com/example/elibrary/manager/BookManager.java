@@ -2,14 +2,10 @@ package com.example.elibrary.manager;
 
 import com.example.elibrary.dao.BookRepo;
 import com.example.elibrary.dao.entity.Book;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -18,6 +14,8 @@ import java.util.Optional;
 public class BookManager {
 
     private BookRepo bookRepo;
+
+    public BookManager(){}
 
     @Autowired
     public BookManager(BookRepo bookRepo) {

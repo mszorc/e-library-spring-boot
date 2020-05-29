@@ -13,6 +13,8 @@ public class BookApi {
 
     private BookManager bookManager;
 
+    public BookApi() {}
+
     @Autowired
     public BookApi(BookManager bookManager) {
         this.bookManager = bookManager;
