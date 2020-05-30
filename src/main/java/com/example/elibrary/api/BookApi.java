@@ -1,6 +1,10 @@
 package com.example.elibrary.api;
 
+import com.example.elibrary.dao.entity.Author;
+//import com.example.elibrary.dao.entity.AuthorBook;
 import com.example.elibrary.dao.entity.Book;
+//import com.example.elibrary.manager.AuthorBookManager;
+import com.example.elibrary.manager.AuthorManager;
 import com.example.elibrary.manager.BookManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,21 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/api")
 public class BookApi {
 
     private BookManager bookManager;
+    private AuthorManager authorManager;
 
     public BookApi() {}
 
     @Autowired
-    public BookApi(BookManager bookManager) {
+    public BookApi(BookManager bookManager, AuthorManager authorManager) {
         this.bookManager = bookManager;
+        this.authorManager = authorManager;
     }
 
-    @GetMapping("/all")
-    public Iterable<Book> getAll() {
+    @GetMapping("/books/all")
+    public Iterable<Book> getAllBooks() {
         return bookManager.findAll();
+    }
+
+    @GetMapping("/authors/all")
+    public Iterable<Author> getAllAuthors() {
+        return authorManager.findAll();
     }
 
     @GetMapping
@@ -31,8 +42,8 @@ public class BookApi {
     }
 
     @PostMapping
-    public Book addBook(@RequestBody Book book) {
-        return bookManager.save(book);
+    public Author addBook(@RequestBody Author author) {
+        return authorManager.save(author);
     }
 
     @PutMapping

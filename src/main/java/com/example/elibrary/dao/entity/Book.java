@@ -1,10 +1,11 @@
 package com.example.elibrary.dao.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -22,6 +23,12 @@ public class Book {
         this.title = title;
         this.publicationDate = publicationDate;
     }
+
+//    @OneToMany(mappedBy = "book")
+//    Set<AuthorBook> bookAuthorSet;
+    @ManyToMany(mappedBy = "books")
+    @JsonIgnoreProperties("books")
+    private List<Author> authors;
 
     public long getId() {
         return id;
@@ -45,5 +52,13 @@ public class Book {
 
     public void setPublicationDate(LocalDate publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 }
