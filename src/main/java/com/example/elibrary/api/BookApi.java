@@ -41,7 +41,7 @@ public class BookApi {
         return bookManager.find(id);
     }
 
-    @PostMapping
+    @PostMapping("/book/create")
     public Author addBook(@RequestBody Author author) {
         return authorManager.save(author);
     }
