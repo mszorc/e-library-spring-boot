@@ -5,6 +5,7 @@ import com.example.elibrary.dao.UserRepo;
 import com.example.elibrary.dao.entity.Book;
 import com.example.elibrary.dao.entity.Role;
 import com.example.elibrary.dao.entity.User;
+import com.example.elibrary.help.ERole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -39,9 +40,4 @@ public class RoleManager {
         roleRepo.deleteById(id);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void fillDB() {
-        save(new Role(1L, "admin"));
-        save(new Role(2L, "user"));
-    }
 }

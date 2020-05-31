@@ -1,22 +1,29 @@
 package com.example.elibrary.dao.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.example.elibrary.help.ERole;
+
+import javax.persistence.*;
 
 @Entity
+@Table(name = "roles")
 public class Role {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole name;
 
     public Role() {}
 
-    public Role(Long id, String role) {
-        this.id = id;
-        this.role = role;
+    public Role(ERole name) {
+        this.name = name;
+    }
+
+    public Role(Long id, ERole name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -27,11 +34,11 @@ public class Role {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public ERole getName() {
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setName(ERole name) {
+        this.name = name;
     }
 }

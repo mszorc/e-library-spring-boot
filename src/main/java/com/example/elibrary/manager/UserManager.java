@@ -10,6 +10,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -23,17 +24,12 @@ public class UserManager {
         this.userRepo = userRepo;
     }
 
-    public User findByLogin(String login) {
-        return userRepo.findByLogin(login);
+    public Optional<User> findByUsername(String login) {
+        return userRepo.findByUsername(login);
     }
 
     public User save(User user) {
         return userRepo.save(user);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void fillDB() {
-        save(new User(1L, "admin", "admin"));
-        save(new User(2L, "test", "test"));
-    }
 }
