@@ -30,6 +30,10 @@ public class Book {
     @JsonIgnoreProperties("books")
     private List<Author> authors;
 
+    @OneToMany(mappedBy = "book")
+    @JsonIgnoreProperties("book")
+    private List<Book_copy> copies;
+
     public long getId() {
         return id;
     }
@@ -61,4 +65,8 @@ public class Book {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
+    public List<Book_copy> getCopies() {return copies;}
+
+    public void setCopies(List<Book_copy> copier) {this.copies = copies;}
 }

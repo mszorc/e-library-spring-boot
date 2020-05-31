@@ -4,7 +4,9 @@ import com.example.elibrary.dao.entity.Author;
 //import com.example.elibrary.dao.entity.AuthorBook;
 import com.example.elibrary.dao.entity.Book;
 //import com.example.elibrary.manager.AuthorBookManager;
+import com.example.elibrary.dao.entity.Book_copy;
 import com.example.elibrary.manager.AuthorManager;
+import com.example.elibrary.manager.BookCopyManager;
 import com.example.elibrary.manager.BookManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,15 @@ public class BookApi {
 
     private BookManager bookManager;
     private AuthorManager authorManager;
+    private BookCopyManager bookCopyManager;
 
     public BookApi() {}
 
     @Autowired
-    public BookApi(BookManager bookManager, AuthorManager authorManager) {
+    public BookApi(BookManager bookManager, AuthorManager authorManager, BookCopyManager bookCopyManager) {
         this.bookManager = bookManager;
         this.authorManager = authorManager;
+        this.bookCopyManager = bookCopyManager;
     }
 
     @GetMapping("/books/all")
@@ -55,5 +59,16 @@ public class BookApi {
     public void deleteBook(@RequestParam Long id) {
         bookManager.deleteById(id);
     }
+
+
+
+    @PostMapping("/copy")
+    public Book_copy addCopy(@RequestBody Book_copy copy) {return bookCopyManager.save(copy);}
+
+    @PutMapping("/copy")
+    public Book_copy updateCopy(@RequestBody Book_copy copy) {return bookCopyManager.save(copy);}
+
+    @DeleteMapping("/copy")
+    public void deleteCopy(@RequestParam Long id) {bookCopyManager.deleteById(id);}
 
 }
