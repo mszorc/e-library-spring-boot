@@ -24,8 +24,6 @@ public class Book {
         this.publicationDate = publicationDate;
     }
 
-//    @OneToMany(mappedBy = "book")
-//    Set<AuthorBook> bookAuthorSet;
     @ManyToMany(mappedBy = "books")
     @JsonIgnoreProperties("books")
     private List<Author> authors;
