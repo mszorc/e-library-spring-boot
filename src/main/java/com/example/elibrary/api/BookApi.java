@@ -19,7 +19,6 @@ public class BookApi {
 
     private BookManager bookManager;
     private AuthorManager authorManager;
-    private BookCopyManager bookCopyManager;
 
     public BookApi() {}
 
@@ -27,7 +26,6 @@ public class BookApi {
     public BookApi(BookManager bookManager, AuthorManager authorManager, BookCopyManager bookCopyManager) {
         this.bookManager = bookManager;
         this.authorManager = authorManager;
-        this.bookCopyManager = bookCopyManager;
     }
 
     @GetMapping("/books/all")
@@ -59,16 +57,4 @@ public class BookApi {
     public void deleteBook(@RequestParam Long id) {
         bookManager.deleteById(id);
     }
-
-
-
-    @PostMapping("/copy")
-    public Book_copy addCopy(@RequestBody Book_copy copy) {return bookCopyManager.save(copy);}
-
-    @PutMapping("/copy")
-    public Book_copy updateCopy(@RequestBody Book_copy copy) {return bookCopyManager.save(copy);}
-
-    @DeleteMapping("/copy")
-    public void deleteCopy(@RequestParam Long id) {bookCopyManager.deleteById(id);}
-
 }

@@ -1,6 +1,9 @@
 package com.example.elibrary.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Book_copy {
@@ -12,6 +15,10 @@ public class Book_copy {
     @ManyToOne
     @JoinColumn(name="book_id", nullable = false)
     private Book book;
+
+    @OneToMany(mappedBy = "bookCopy")
+    @JsonIgnoreProperties("bookCopy")
+    private List<Borrow_copy> copies;
 
     public Book_copy() {}
 
