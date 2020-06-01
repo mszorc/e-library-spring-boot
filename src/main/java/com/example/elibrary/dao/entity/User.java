@@ -1,12 +1,27 @@
 package com.example.elibrary.dao.entity;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
+=======
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
+
+>>>>>>> Adam
 
 @Entity
-@Table(name = "User_Entity")
+@Table(name = "users",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username")
+    })
 public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,15 +32,21 @@ public class User {
     @JsonIgnoreProperties("bookCopy")
     private List<Borrow_copy> copies;
 
-    private String login;
-    private String passwd;
+    private String username;
+
+    private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {}
 
-    public User(Long id, String login, String passwd) {
-        this.id = id;
-        this.login = login;
-        this.passwd = passwd;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
@@ -36,19 +57,27 @@ public class User {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPasswd() {
-        return passwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

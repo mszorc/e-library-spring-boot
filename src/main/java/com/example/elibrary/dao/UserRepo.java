@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Component
 public interface UserRepo extends CrudRepository<User, Long> {
-    User findByLogin(String login);
+    Optional<User> findByUsername(String username);
+    Boolean existsByUsername(String username);
 }

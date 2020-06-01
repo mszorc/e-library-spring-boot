@@ -1,0 +1,6 @@
+package com.example.elibrary.help;
+
+public enum ERole {
+    ROLE_USER,
+    ROLE_ADMIN
+}
