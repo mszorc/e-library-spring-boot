@@ -1,0 +1,8 @@
+com\example\elibrary\api\BookCopyApi.class
+com\example\elibrary\dao\BorrowCopyRepo.class
+com\example\elibrary\manager\BookCopyManager.class
+com\example\elibrary\dao\entity\Book_copy.class
+com\example\elibrary\dao\entity\Borrow_copy.class
+com\example\elibrary\api\BorrowCopyApi.class
+com\example\elibrary\manager\BorrowCopyManager.class
+com\example\elibrary\dao\BookCopyRepo.class
