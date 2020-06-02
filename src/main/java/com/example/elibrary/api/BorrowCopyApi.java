@@ -27,23 +27,23 @@ public class BorrowCopyApi {
         this.userManager = userManager;
     }
 
-    @GetMapping("/borrowed/all")
-    public Iterable<Borrow_copy> getAllBorrowedCopies() {
-        return borrowCopyManager.findAll();
+    @GetMapping("/borrow/all")
+    public Iterable<Borrow_copy> getAllBorrowedCopies(@RequestHeader("Authorization") String token) {
+        return borrowCopyManager.findAll(token);
     }
 
-    @GetMapping("/borrowed")
-    public Optional<Borrow_copy> getBorrowedCopyById(@RequestParam Long id) {
-        return borrowCopyManager.find(id);
+    @GetMapping("/borrow")
+    public Optional<Borrow_copy> getBorrowedCopyById(@RequestParam Long id, @RequestHeader("Authorization") String token) {
+        return borrowCopyManager.findUsersBorrowedCopy(id, token);
     }
 
-    @PostMapping("/borrowed")
-    public Borrow_copy borrowCopy(@RequestParam Long bookId) {
-        return borrowCopyManager.borrowFirstAvailable(bookId);
+    @PostMapping("/borrow/create")
+    public Borrow_copy borrowCopy(@RequestParam Long bookId, @RequestHeader("Authorization") String token) {
+        return borrowCopyManager.borrowFirstAvailable(bookId, token);
     }
 
-    @PutMapping("/borrowed")
-    public Borrow_copy returnCopy(@RequestBody Borrow_copy borrowCopy) {
-        return borrowCopyManager.returnCopy(borrowCopy);
+    @PutMapping("/borrow/update")
+    public Borrow_copy returnCopy(@RequestParam Long id, @RequestHeader("Authorization") String token) {
+        return borrowCopyManager.returnCopy(id, token);
     }
 }

@@ -1,11 +1,6 @@
 package com.example.elibrary.dao.entity;
 
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.util.List;
-=======
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +9,6 @@ import javax.persistence.*;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
-
->>>>>>> Adam
 
 @Entity
 @Table(name = "users",

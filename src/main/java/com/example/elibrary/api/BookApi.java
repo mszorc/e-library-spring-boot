@@ -38,22 +38,22 @@ public class BookApi {
         return authorManager.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/books")
     public Optional<Book> getById(@RequestParam Long id) {
         return bookManager.find(id);
     }
 
-    @PostMapping("/book/create")
+    @PostMapping("/books/create")
     public Author addBook(@RequestBody Author author) {
         return authorManager.save(author);
     }
 
-    @PutMapping
+    @PutMapping("/books/update")
     public Book updateBook(@RequestBody Book book) {
         return bookManager.save(book);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/books/delete")
     public void deleteBook(@RequestParam Long id) {
         bookManager.deleteById(id);
     }

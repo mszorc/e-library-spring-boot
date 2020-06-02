@@ -17,22 +17,22 @@ public class BookCopyApi {
         this.bookCopyManager = bookCopyManager;
     }
 
-    @GetMapping("/copy/all")
+    @GetMapping("/copies/all")
     public Iterable<Book_copy> getAllBookCopies() {
         return bookCopyManager.findAll();
     }
 
-    @GetMapping("/copy")
+    @GetMapping("/copies")
     public Optional<Book_copy> getById(@RequestParam Long id) {
         return bookCopyManager.find(id);
     }
 
-    @PostMapping("/copy/add")
+    @PostMapping("/copies/create")
     public Book_copy addCopy(@RequestParam Long bookId) {return bookCopyManager.save(bookId);}
 
-    @PutMapping("/copy")
+    @PutMapping("/copies/update")
     public Book_copy updateCopy(@RequestBody Book_copy copy) {return bookCopyManager.save(copy);}
 
-    @DeleteMapping("/copy")
+    @DeleteMapping("/copies/delete")
     public void deleteCopy(@RequestParam Long id) {bookCopyManager.deleteById(id);}
 }

@@ -27,6 +27,20 @@ public class Borrow_copy {
     private LocalDate returnDate;
     private Double fine;
 
+    public Borrow_copy() {
+
+    }
+
+    public Borrow_copy(Long id, Book_copy bookCopy, User users, LocalDate borrowDate, LocalDate expectedReturnDate, LocalDate returnDate, Double fine) {
+        this.id = id;
+        this.bookCopy = bookCopy;
+        this.users = users;
+        this.borrowDate = borrowDate;
+        this.expectedReturnDate = expectedReturnDate;
+        this.returnDate = returnDate;
+        this.fine = fine;
+    }
+
     public Long getId() {
         return id;
     }
