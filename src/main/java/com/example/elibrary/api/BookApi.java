@@ -9,6 +9,7 @@ import com.example.elibrary.manager.AuthorManager;
 import com.example.elibrary.manager.BookCopyManager;
 import com.example.elibrary.manager.BookManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -44,16 +45,19 @@ public class BookApi {
     }
 
     @PostMapping("/books/create")
+    @PreAuthorize("hasRole('ADMIN')")
     public Author addBook(@RequestBody Author author) {
         return authorManager.save(author);
     }
 
     @PutMapping("/books/update")
+    @PreAuthorize("hasRole('ADMIN')")
     public Book updateBook(@RequestBody Book book) {
         return bookManager.save(book);
     }
 
     @DeleteMapping("/books/delete")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteBook(@RequestParam Long id) {
         bookManager.deleteById(id);
     }

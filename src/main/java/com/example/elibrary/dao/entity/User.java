@@ -35,7 +35,11 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User() {}
+//    private boolean isGoogleUser;
+
+    public User() {
+//        isGoogleUser = false;
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -73,4 +77,12 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+//    public boolean isGoogleUser() {
+//        return isGoogleUser;
+//    }
+//
+//    public void setGoogleUser(boolean googleUser) {
+//        isGoogleUser = googleUser;
+//    }
 }
