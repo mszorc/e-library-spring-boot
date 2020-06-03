@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserManager {
@@ -30,6 +33,23 @@ public class UserManager {
 
     public User save(User user) {
         return userRepo.save(user);
+    }
+
+    public Iterable<User> findAll() {
+        return userRepo.findAll();
+    }
+
+    public void deleteById(Long id) {
+        userRepo.deleteById(id);
+    }
+
+    public List<User> findFilteredUsers(String username) {
+        Iterable<User> users = userRepo.findAll();
+        List<User> filteredUsers = StreamSupport.stream(users.spliterator(), false)
+                .filter(e -> e.getUsername().toLowerCase().contains(username.toLowerCase()))
+                .collect(Collectors.toList());
+
+        return filteredUsers;
     }
 
 }

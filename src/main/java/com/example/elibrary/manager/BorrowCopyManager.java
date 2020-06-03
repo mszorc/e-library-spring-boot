@@ -109,7 +109,8 @@ public class BorrowCopyManager {
         Iterable<Borrow_copy> allBorrowedCopies = borrowCopyRepo.findAll();
         List<Borrow_copy> usersBorrowedCopies = new ArrayList<Borrow_copy>();
         for(Borrow_copy copy: allBorrowedCopies) {
-            if (copy.getUsers().getUsername().equals(loggedUser.get().getUsername()))
+            if (copy.getUsers().getUsername().toLowerCase().equals(loggedUser.get().getUsername().toLowerCase())
+                    && copy.getReturnDate() == null)
                 usersBorrowedCopies.add(copy);
         }
         return usersBorrowedCopies;

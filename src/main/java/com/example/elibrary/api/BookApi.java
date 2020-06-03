@@ -23,7 +23,7 @@ public class BookApi {
     public BookApi() {}
 
     @Autowired
-    public BookApi(BookManager bookManager, AuthorManager authorManager, BookCopyManager bookCopyManager) {
+    public BookApi(BookManager bookManager, AuthorManager authorManager) {
         this.bookManager = bookManager;
         this.authorManager = authorManager;
     }
@@ -32,6 +32,12 @@ public class BookApi {
     @GetMapping("/books/all")
     public Iterable<Book> getAllBooks() {
         return bookManager.findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping("/books/filter")
+    public Iterable<Book> getFilteredBooks(@RequestParam String title, @RequestParam String author, @RequestParam Long year) {
+        return bookManager.findFilteredBooks(title, author, year);
     }
 
     @CrossOrigin
