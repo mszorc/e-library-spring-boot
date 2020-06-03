@@ -28,31 +28,37 @@ public class BookApi {
         this.authorManager = authorManager;
     }
 
+    @CrossOrigin
     @GetMapping("/books/all")
     public Iterable<Book> getAllBooks() {
         return bookManager.findAll();
     }
 
+    @CrossOrigin
     @GetMapping("/authors/all")
     public Iterable<Author> getAllAuthors() {
         return authorManager.findAll();
     }
 
+    @CrossOrigin
     @GetMapping("/books")
     public Optional<Book> getById(@RequestParam Long id) {
         return bookManager.find(id);
     }
 
+    @CrossOrigin
     @PostMapping("/books/create")
     public Author addBook(@RequestBody Author author) {
         return authorManager.save(author);
     }
 
+    @CrossOrigin
     @PutMapping("/books/update")
     public Book updateBook(@RequestBody Book book) {
         return bookManager.save(book);
     }
 
+    @CrossOrigin
     @DeleteMapping("/books/delete")
     public void deleteBook(@RequestParam Long id) {
         bookManager.deleteById(id);
