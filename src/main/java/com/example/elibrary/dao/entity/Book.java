@@ -1,6 +1,7 @@
 package com.example.elibrary.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,7 +14,11 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+    @NotNull
     private String title;
+
+    @NotNull
     public LocalDate publicationDate;
 
     public Book() {}
@@ -24,12 +29,11 @@ public class Book {
         this.publicationDate = publicationDate;
     }
 
-   // @ManyToMany(mappedBy = "books")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany
     @JsonIgnoreProperties("books")
     private List<Author> authors;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("book")
     private List<Book_copy> copies;
 

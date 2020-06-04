@@ -3,11 +3,10 @@ package com.example.elibrary.manager;
 import com.example.elibrary.auth.JwtUtils;
 import com.example.elibrary.auth.UserDetailsImpl;
 import com.example.elibrary.dao.BookRepo;
+import com.example.elibrary.dao.BorrowCopyRepo;
 import com.example.elibrary.dao.RoleRepo;
 import com.example.elibrary.dao.UserRepo;
-import com.example.elibrary.dao.entity.Book;
-import com.example.elibrary.dao.entity.Role;
-import com.example.elibrary.dao.entity.User;
+import com.example.elibrary.dao.entity.*;
 import com.example.elibrary.help.ERole;
 import com.example.elibrary.payload.request.LoginRequest;
 import com.example.elibrary.payload.request.SignupRequest;
@@ -54,6 +53,9 @@ public class UserManager {
     RoleRepo roleRepo;
 
     @Autowired
+    BorrowCopyRepo borrowCopyRepo;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -63,12 +65,14 @@ public class UserManager {
     }
 
     @Autowired
-    public UserManager(AuthenticationManager authenticationManager, UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+    public UserManager(AuthenticationManager authenticationManager, UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder, JwtUtils jwtUtils,
+                       BorrowCopyRepo borrowCopyRepo) {
         this.authenticationManager = authenticationManager;
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
+        this.borrowCopyRepo = borrowCopyRepo;
     }
 
     public Optional<User> findByUsername(String login) {
@@ -84,6 +88,15 @@ public class UserManager {
     }
 
     public void deleteById(Long id) {
+        Iterable<Borrow_copy> borrow_copies = borrowCopyRepo.findAll();
+        borrow_copies = StreamSupport.stream(borrow_copies.spliterator(), false)
+                .filter(e -> e.getUsers().getId() == id)
+                .collect(Collectors.toList());
+
+        for(Borrow_copy bk : borrow_copies) {
+            borrowCopyRepo.delete(bk);
+        }
+
         userRepo.deleteById(id);
     }
 

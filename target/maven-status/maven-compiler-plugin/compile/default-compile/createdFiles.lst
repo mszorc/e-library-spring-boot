@@ -1,3 +1,4 @@
+com\example\elibrary\api\UsersApi.class
 com\example\elibrary\auth\UserDetailsImpl.class
 com\example\elibrary\api\BookCopyApi.class
 com\example\elibrary\dao\AuthorRepo.class

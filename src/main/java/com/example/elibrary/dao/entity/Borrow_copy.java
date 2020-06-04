@@ -14,7 +14,7 @@ public class Borrow_copy {
     @Id
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="copy_id", nullable = false)
     private Book_copy bookCopy;
 

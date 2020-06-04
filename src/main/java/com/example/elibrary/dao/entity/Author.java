@@ -26,15 +26,6 @@ public class Author {
         this.birthDate = birthDate;
     }
 
-//    @OneToMany(mappedBy = "author")
-//    Set<AuthorBook> bookAuthorSet;
-        @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//        @JoinTable(name="author_books",
-//                joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-//                inverseJoinColumns = @JoinColumn(name = "author_id",
-//                        referencedColumnName = "id"))
-//        @JsonIgnoreProperties("authors")
-        private List<Book> books;
 
     public Long getId() {
         return id;
@@ -68,12 +59,12 @@ public class Author {
         this.birthDate = birthDate;
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
+//    public List<Book> getBooks() {
+//        return books;
+//    }
+//
+//    public void setBooks(List<Book> books) {
+//        this.books = books;
+//    }
 }
 

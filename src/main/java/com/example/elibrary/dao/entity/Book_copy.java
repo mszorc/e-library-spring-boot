@@ -13,10 +13,10 @@ public class Book_copy {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="book_id", nullable = false)
+    @JoinColumn(name="book_id")
     private Book book;
 
-    @OneToMany(mappedBy = "bookCopy")
+    @OneToMany(mappedBy = "bookCopy", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("bookCopy")
     private List<Borrow_copy> copies;
 

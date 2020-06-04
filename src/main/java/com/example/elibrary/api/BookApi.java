@@ -64,12 +64,14 @@ public class BookApi {
 
     @CrossOrigin
     @PutMapping("/books/update")
+    @PreAuthorize("hasRole('ADMIN')")
     public Book updateBook(@RequestBody Book book) {
         return bookManager.save(book);
     }
 
     @CrossOrigin
     @DeleteMapping("/books/delete")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteBook(@RequestParam Long id) {
         bookManager.deleteById(id);
     }

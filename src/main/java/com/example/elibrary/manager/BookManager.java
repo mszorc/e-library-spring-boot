@@ -50,6 +50,20 @@ public class BookManager {
     }
 
     public void deleteById(Long id) {
+//        Optional<Book> book = bookRepo.findById(id);
+//        Book bk = new Book();
+//        if(book.isPresent()) {
+//            bk = book.get();
+//            List<Author> authors = bk.getAuthors();
+//            for(Author author : authors) {
+//                List<Book> author_books = author.getBooks();
+//                author_books.remove(bk);
+//                author.setBooks(author_books);
+//                authorManager.save(author);
+//            }
+//            bk.setAuthors(new ArrayList<Author>());
+//            bookRepo.save(bk);
+//        }
         bookRepo.deleteById(id);
     }
 
@@ -89,12 +103,6 @@ public class BookManager {
         List<Author> authors = new ArrayList<Author>();
         for(Author a : authors_tmp) {
             Author findAuthor = authorManager.findByName(a.getName(), a.getSurname());
-
-            List<Book> bookList = findAuthor.getBooks();
-            if(bookList == null) bookList = new ArrayList<Book>();
-            bookList.add(book);
-            findAuthor.setBooks(bookList);
-            authorManager.save(findAuthor);
             authors.add(findAuthor);
         }
         Book_copy copy = new Book_copy();

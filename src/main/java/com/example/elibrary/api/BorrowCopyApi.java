@@ -32,11 +32,6 @@ public class BorrowCopyApi {
         return borrowCopyManager.findAll();
     }
 
-    @GetMapping("/borrow")
-    public Optional<Borrow_copy> getBorrowedCopyById(@RequestParam Long id) {
-        return borrowCopyManager.findUsersBorrowedCopy(id);
-    }
-
     @PostMapping("/borrow/create")
     public Borrow_copy borrowCopy(@RequestParam Long bookId) {
         return borrowCopyManager.borrowFirstAvailable(bookId);
