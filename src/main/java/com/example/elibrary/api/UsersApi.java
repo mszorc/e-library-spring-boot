@@ -6,7 +6,9 @@ import com.example.elibrary.manager.AuthorManager;
 import com.example.elibrary.manager.BookCopyManager;
 import com.example.elibrary.manager.BookManager;
 import com.example.elibrary.manager.UserManager;
+import com.example.elibrary.payload.request.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +46,12 @@ public class UsersApi {
     @PreAuthorize("hasRole('ADMIN')")
     public List<User> getFilteredUsers(@RequestParam String username) {
         return userManager.findFilteredUsers(username);
+    }
+
+    @CrossOrigin
+    @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
+        return userManager.registerUser(signUpRequest);
     }
 }

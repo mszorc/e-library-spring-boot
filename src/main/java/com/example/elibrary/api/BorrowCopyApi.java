@@ -28,22 +28,22 @@ public class BorrowCopyApi {
     }
 
     @GetMapping("/borrow/all")
-    public Iterable<Borrow_copy> getAllBorrowedCopies(@RequestHeader("Authorization") String token) {
-        return borrowCopyManager.findAll(token);
+    public Iterable<Borrow_copy> getAllBorrowedCopies() {
+        return borrowCopyManager.findAll();
     }
 
     @GetMapping("/borrow")
-    public Optional<Borrow_copy> getBorrowedCopyById(@RequestParam Long id, @RequestHeader("Authorization") String token) {
-        return borrowCopyManager.findUsersBorrowedCopy(id, token);
+    public Optional<Borrow_copy> getBorrowedCopyById(@RequestParam Long id) {
+        return borrowCopyManager.findUsersBorrowedCopy(id);
     }
 
     @PostMapping("/borrow/create")
-    public Borrow_copy borrowCopy(@RequestParam Long bookId, @RequestHeader("Authorization") String token) {
-        return borrowCopyManager.borrowFirstAvailable(bookId, token);
+    public Borrow_copy borrowCopy(@RequestParam Long bookId) {
+        return borrowCopyManager.borrowFirstAvailable(bookId);
     }
 
     @PutMapping("/borrow/update")
-    public Borrow_copy returnCopy(@RequestParam Long id, @RequestHeader("Authorization") String token) {
-        return borrowCopyManager.returnCopy(id, token);
+    public Borrow_copy returnCopy(@RequestParam Long id) {
+        return borrowCopyManager.returnCopy(id);
     }
 }

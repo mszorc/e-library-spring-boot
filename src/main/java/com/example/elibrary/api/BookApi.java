@@ -1,5 +1,8 @@
 package com.example.elibrary.api;
 
+import com.example.elibrary.auth.JwtUtils;
+import com.example.elibrary.dao.RoleRepo;
+import com.example.elibrary.dao.UserRepo;
 import com.example.elibrary.dao.entity.Author;
 //import com.example.elibrary.dao.entity.AuthorBook;
 import com.example.elibrary.dao.entity.Book;
@@ -10,6 +13,8 @@ import com.example.elibrary.manager.BookCopyManager;
 import com.example.elibrary.manager.BookManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,7 +25,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class BookApi {
-
     private BookManager bookManager;
     private AuthorManager authorManager;
     private BookCopyManager bookCopyManager;
@@ -58,7 +62,6 @@ public class BookApi {
         return bookManager.find(id);
     }
 
-
     @CrossOrigin
     @PutMapping("/books/update")
     public Book updateBook(@RequestBody Book book) {
@@ -75,28 +78,18 @@ public class BookApi {
     @PostMapping("/books/create")
     @PreAuthorize("hasRole('ADMIN')")
     public Book addBook(@RequestBody Book book) {
+        return bookManager.addBook(book);
+    }
 
-        List<Author> authors_tmp = book.getAuthors();
-        book.setAuthors(new ArrayList<Author>());
-        book.setCopies(new ArrayList<Book_copy>());
-        bookManager.save(book);
-        book = bookManager.findFilteredBooks(book.getTitle(),"",null).get(0);
-        List<Author> authors = new ArrayList<Author>();
-        for(Author a : authors_tmp) {
-            Author findAuthor = authorManager.findByName(a.getName(), a.getSurname());
+    @CrossOrigin
+    @GetMapping("/books/quantity")
+    public int getCopiesQuantity(@RequestParam Long id) {
+        return bookManager.getCopiesQuantity(id);
+    }
 
-            List<Book> bookList = findAuthor.getBooks();
-            if(bookList == null) bookList = new ArrayList<Book>();
-            bookList.add(book);
-            findAuthor.setBooks(bookList);
-            authorManager.save(findAuthor);
-            authors.add(findAuthor);
-        }
-        Book_copy copy = new Book_copy();
-        copy.setBook(book);
-        bookCopyManager.save(copy);
-        book.setCopies(Arrays.asList(copy));
-        book.setAuthors(authors);
-        return bookManager.save(book);
+    @CrossOrigin
+    @GetMapping("/books/notCheckedOutQuantity")
+    public int getNotCheckedOutCopiesQuantity(@RequestParam Long id) {
+        return bookManager.getNotCheckedOutCopiesQuantity(id);
     }
 }

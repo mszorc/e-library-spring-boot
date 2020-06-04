@@ -9,6 +9,8 @@ import com.example.elibrary.dao.entity.Book_copy;
 import com.example.elibrary.dao.entity.Borrow_copy;
 import com.example.elibrary.dao.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,7 +35,8 @@ public class BorrowCopyManager {
         this.userRepo = userRepo;
     }
 
-    public Borrow_copy borrowFirstAvailable(Long bookId, String token) {
+    public Borrow_copy borrowFirstAvailable(Long bookId) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Book> book = bookRepo.findById(bookId);
         if (book.isEmpty())
             return null;
@@ -54,7 +57,7 @@ public class BorrowCopyManager {
                 borrowCopy.setBookCopy(copy);
                 borrowCopy.setBorrowDate(LocalDate.now());
                 borrowCopy.setExpectedReturnDate(LocalDate.now().plusMonths(1));
-                borrowCopy.setUsers(userRepo.findByUsername(jwtUtils.getUserNameFromJwtToken(token.substring(7))).get());
+                borrowCopy.setUsers(userRepo.findByUsername(userDetails.getUsername()).get());
                 save(borrowCopy);
                 return borrowCopy;
             }
@@ -63,8 +66,8 @@ public class BorrowCopyManager {
         return null;
     }
 
-    public Borrow_copy returnCopy(Long id, String token) {
-        Optional<Borrow_copy> borrowCopy = findUsersBorrowedCopy(id, token);
+    public Borrow_copy returnCopy(Long id) {
+        Optional<Borrow_copy> borrowCopy = findUsersBorrowedCopy(id);
 
         if (borrowCopy.isEmpty())
             return null;
@@ -85,10 +88,10 @@ public class BorrowCopyManager {
         return borrowedCopy;
     }
 
-    public Optional<Borrow_copy> findUsersBorrowedCopy(Long id, String token) {
-        JwtUtils jwtUtils = new JwtUtils();
+    public Optional<Borrow_copy> findUsersBorrowedCopy(Long id) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Borrow_copy> borrowCopy = borrowCopyRepo.findById(id);
-        Optional<User> loggedUser = userRepo.findByUsername(jwtUtils.getUserNameFromJwtToken(token.substring(7)));
+        Optional<User> loggedUser = userRepo.findByUsername(userDetails.getUsername());
 
         if (borrowCopy.isEmpty() || loggedUser.isEmpty())
             return null;
@@ -99,9 +102,9 @@ public class BorrowCopyManager {
             return null;
     }
 
-    public Iterable<Borrow_copy> findAll(String token) {
-        JwtUtils jwtUtils = new JwtUtils();
-        Optional<User> loggedUser = userRepo.findByUsername(jwtUtils.getUserNameFromJwtToken(token.substring(7)));
+    public Iterable<Borrow_copy> findAll() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> loggedUser = userRepo.findByUsername(userDetails.getUsername());
 
         if (loggedUser.isEmpty())
             return null;
@@ -114,6 +117,19 @@ public class BorrowCopyManager {
                 usersBorrowedCopies.add(copy);
         }
         return usersBorrowedCopies;
+    }
+
+    public int getBorrowedCopiesQuantity(List<Book_copy> copies) {
+        Iterable<Borrow_copy> allBorrowed = borrowCopyRepo.findAll();
+        int counter = 0;
+        for (Book_copy copy: copies) {
+            if (StreamSupport.stream(allBorrowed.spliterator(), false)
+                    .filter(e -> e.getReturnDate() == null && e.getBookCopy().getId() == copy.getId())
+                    .collect(Collectors.toList()).size() == 0) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     public Borrow_copy save(Borrow_copy borrowCopy) {
