@@ -24,7 +24,8 @@ public class Book {
         this.publicationDate = publicationDate;
     }
 
-    @ManyToMany(mappedBy = "books")
+   // @ManyToMany(mappedBy = "books")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("books")
     private List<Author> authors;
 

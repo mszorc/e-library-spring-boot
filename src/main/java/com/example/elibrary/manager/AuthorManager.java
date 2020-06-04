@@ -10,7 +10,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class AuthorManager {
@@ -39,10 +42,21 @@ public class AuthorManager {
         authorRepo.deleteById(id);
     }
 
-    //Only for test, triggered when application starts
-    @EventListener(ApplicationReadyEvent.class)
-    public void fillDB() {
-        save(new Author(1L, "Adam", "Mickiewicz", LocalDate.of(2015, 1, 1)));
-        save(new Author(2L, "Henryk", "Sienkiewicz", LocalDate.of(2020, 1, 1)));
+    public Author findByName(String name, String surname) {
+        Iterable<Author> authors = authorRepo.findAll();
+        List<Author> filteredAuthors = StreamSupport.stream(authors.spliterator(), false)
+                .filter(e -> e.getName().toLowerCase().equals(name.toLowerCase()) &&
+                        e.getSurname().toLowerCase().equals(surname.toLowerCase()))
+                .collect(Collectors.toList());
+        Author author = new Author();
+        if(filteredAuthors.size() == 0) {
+            author = new Author();
+            author.setName(name);
+            author.setSurname(surname);
+            save(author);
+        } else {
+            author = filteredAuthors.get(0);
+        }
+        return author;
     }
 }

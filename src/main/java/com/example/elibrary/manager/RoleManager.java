@@ -19,6 +19,8 @@ public class RoleManager {
 
     public RoleManager() {}
 
+
+
     @Autowired
     public RoleManager(RoleRepo roleRepo) {
         this.roleRepo = roleRepo;
@@ -39,5 +41,7 @@ public class RoleManager {
     public void deleteById(Long id) {
         roleRepo.deleteById(id);
     }
+
+
 
 }

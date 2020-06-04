@@ -29,11 +29,11 @@ public class Author {
 //    @OneToMany(mappedBy = "author")
 //    Set<AuthorBook> bookAuthorSet;
         @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        @JoinTable(name="author_books",
-                joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "author_id",
-                        referencedColumnName = "id"))
-        @JsonIgnoreProperties("authors")
+//        @JoinTable(name="author_books",
+//                joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+//                inverseJoinColumns = @JoinColumn(name = "author_id",
+//                        referencedColumnName = "id"))
+//        @JsonIgnoreProperties("authors")
         private List<Book> books;
 
     public Long getId() {

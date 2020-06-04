@@ -1,6 +1,7 @@
 package com.example.elibrary.dao.entity;
 
 import com.example.elibrary.help.ERole;
+import org.springframework.context.event.EventListener;
 
 import javax.persistence.*;
 
@@ -41,4 +42,6 @@ public class Role {
     public void setName(ERole name) {
         this.name = name;
     }
+
+
 }
