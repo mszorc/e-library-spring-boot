@@ -50,20 +50,6 @@ public class BookManager {
     }
 
     public void deleteById(Long id) {
-//        Optional<Book> book = bookRepo.findById(id);
-//        Book bk = new Book();
-//        if(book.isPresent()) {
-//            bk = book.get();
-//            List<Author> authors = bk.getAuthors();
-//            for(Author author : authors) {
-//                List<Book> author_books = author.getBooks();
-//                author_books.remove(bk);
-//                author.setBooks(author_books);
-//                authorManager.save(author);
-//            }
-//            bk.setAuthors(new ArrayList<Author>());
-//            bookRepo.save(bk);
-//        }
         bookRepo.deleteById(id);
     }
 
@@ -75,24 +61,29 @@ public class BookManager {
                     .filter(e -> e.getTitle().toLowerCase().contains(title.toLowerCase()))
                     .collect(Collectors.toList());
 
+        List<Book> tmpBooks = new ArrayList<Book>();
         if (!author.isBlank()) {
-            for (Book book: books) {
-                List<Author> authors = book.getAuthors().stream()
-                        .filter(e -> e.getName().toLowerCase().contains(author.toLowerCase())
-                                || e.getSurname().toLowerCase().contains(author.toLowerCase()))
-                        .collect(Collectors.toList());
-
-                if (authors.size() == 0)
-                    filteredBooks.remove(book);
+            for (Book book : filteredBooks) {
+                for (Author authors : book.getAuthors()) {
+                    String a = "";
+                    a = a.concat(authors.getName());
+                    a = a.concat(" ");
+                    a = a.concat(authors.getSurname());
+                    if (a.toLowerCase().contains(author.toLowerCase())) {
+                        tmpBooks.add(book);
+                    }
+                }
             }
         }
+        filteredBooks = tmpBooks;
 
         if (year != null)
             filteredBooks = filteredBooks.stream().filter(e -> e.getPublicationDate().getYear() == year)
-                .collect(Collectors.toList());
+                    .collect(Collectors.toList());
 
         return filteredBooks;
     }
+
 
     public Book addBook(Book book) {
         List<Author> authors_tmp = book.getAuthors();
