@@ -74,8 +74,9 @@ public class BookManager {
                     }
                 }
             }
+            filteredBooks = tmpBooks;
         }
-        filteredBooks = tmpBooks;
+
 
         if (year != null)
             filteredBooks = filteredBooks.stream().filter(e -> e.getPublicationDate().getYear() == year)
